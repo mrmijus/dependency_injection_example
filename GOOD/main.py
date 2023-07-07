@@ -17,6 +17,9 @@ class OrderStatus(str, Enum):
 
 
 class Authorizer(ABC):
+    # We create an Authorizer interface as an abstraction layer. Doing this gives us a dependency inversion.
+    # This is useful mainly because we can now easily add a new authorizer without having
+    # to change the PaymentProcessor class
     @abstractmethod
     def authorize(self):
         """Authorize a user"""
@@ -36,7 +39,6 @@ class SMSAuthorizer(Authorizer):
         print(f'generated SMS code: {self.code}')
 
     def authorize(self) -> None:
-        # self.generate_sms_code()
         user_input = input('Enter SMS code: ')
         self.authorized = user_input == self.code
 
@@ -54,6 +56,9 @@ class Order:
 
 
 class PaymentProcessor:
+    # Dependency injection: we inject the Authorizer INTERFACE dependency into the PaymentProcessor class
+    # This is useful because we can now easily change the authorizer without having to change the PaymentProcessor class
+    # This is also useful for testing because we can now easily mock the Authorizer class
     def __init__(self, authorizer: Authorizer):
         self.authorizer = authorizer
 
