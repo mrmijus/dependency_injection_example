@@ -5,7 +5,6 @@ from main import *
 
 
 class SMSAuthorizerTestCase(unittest.TestCase):
-
     def test_init_authorized(self):
         auth = SMSAuthorizer()
         self.assertFalse(auth.is_authorized())
@@ -22,6 +21,9 @@ class SMSAuthorizerTestCase(unittest.TestCase):
             auth.authorize()
             self.assertTrue(auth.is_authorized())
 
+    # There are 2 ways to patch/override the something when testing.
+    # Using a decorator or using a context manager.
+    # This is an example of using a decorator.
     @patch('builtins.input', return_value="1234567")
     def test_authorize_fail(self, mocked_input):
         auth = SMSAuthorizer()
@@ -39,6 +41,9 @@ class PaymentProcessorTestCase(unittest.TestCase):
     def test_payment_success(self):
         auth = SMSAuthorizer()
         auth.generate_sms_code()
+        # There are 2 ways to patch/override the something when testing.
+        # Using a decorator or using a context manager.
+        # This is an example of using a context manager.
         with patch('builtins.input', return_value=auth.code):
             p = PaymentProcessor(auth)
             order = Order()

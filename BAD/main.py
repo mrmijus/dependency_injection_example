@@ -3,7 +3,6 @@ import random
 
 
 class Order:
-
     def __init__(self):
         self.id = ''.join(random.choices(string.ascii_lowercase, k=6))
         self.status = "open"
@@ -30,7 +29,6 @@ class SMSAuthorizer:
 
 
 class PaymentProcessor:
-
     def pay(self, order):
         authorizer = SMSAuthorizer()
         authorizer.generate_sms_code()

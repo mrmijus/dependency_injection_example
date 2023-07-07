@@ -17,6 +17,8 @@ class SMSAuthorizerTestCase(unittest.TestCase):
     def test_authorize_success(self):
         auth = SMSAuthorizer()
         auth.generate_sms_code()
+        # Notice the context manager here
+        # It overrides the Pythons default input function to always return the valid code
         with patch('builtins.input', return_value=auth.code):
             auth.authorize()
             self.assertTrue(auth.is_authorized())
@@ -30,7 +32,9 @@ class SMSAuthorizerTestCase(unittest.TestCase):
 
 
 class PaymentProcessorTestCase(unittest.TestCase):
-    """ Because of the bad design, this is now very difficult to test"""
+    """Because of the bad design, this is now very difficult to test.
+    How would you test this?
+    """
 
     def test_payment_success(self):
         # ???
