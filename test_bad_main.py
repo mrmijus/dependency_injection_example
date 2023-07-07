@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import patch
-from main import *
+from bad_main import *
 
 
 class SMSAuthorizerTestCase(unittest.TestCase):
